@@ -1892,7 +1892,7 @@ class MainWindow(QMainWindow):
         #                                    shrink=0.6, aspect=10, pad=0.02)
         
         # 设置图表标题和轴标签，使用更合适的字体大小和位置
-        self.canvas.axes_3d.set_title(f"历史PRPS图 ({num_cycles}个周期)", fontsize=12)
+        self.canvas.axes_3d.set_title(f"实时PRPS图 ({num_cycles}个周期)", fontsize=12)
         self.canvas.axes_3d.set_xlabel("相位", fontsize=10, labelpad=10)
         self.canvas.axes_3d.set_ylabel("周期", fontsize=10, labelpad=10)
         self.canvas.axes_3d.set_zlabel(self.unit_label, fontsize=10, labelpad=10)
