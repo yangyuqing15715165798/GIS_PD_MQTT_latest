@@ -7,10 +7,10 @@ matplotlib.use('QtAgg')
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
-from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
-                              QHBoxLayout, QLabel, QLineEdit, QPushButton, 
-                              QGroupBox, QGridLayout, QSpinBox, QComboBox, 
-                              QStatusBar, QMessageBox, QCheckBox, QDoubleSpinBox,
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
+                              QHBoxLayout, QLabel, QLineEdit, QPushButton,
+                              QGroupBox, QGridLayout, QSpinBox, QComboBox,
+                              QStatusBar, QMessageBox, QCheckBox,
                               QTableWidget, QTableWidgetItem, QDialog, QDateTimeEdit,
                               QScrollArea, QFileDialog, QTabWidget, QSplitter, QToolBar, QStyle)
 from PySide6.QtCore import Qt, QTimer, Signal, Slot, QThread, QMutex, QDateTime, QSize
@@ -845,20 +845,11 @@ class HistoricalChartsDialog(QDialog):
         self.show_sine_checkbox.setChecked(True)
         self.show_sine_checkbox.stateChanged.connect(self.update_chart)
         settings_layout.addWidget(self.show_sine_checkbox, 1, 0)
-        
-        # 添加正弦波振幅设置
-        settings_layout.addWidget(QLabel("正弦波振幅:"), 1, 1)
-        self.sine_amplitude_spin = QDoubleSpinBox()
-        self.sine_amplitude_spin.setRange(0.1, 3.0)
-        self.sine_amplitude_spin.setValue(1.0)
-        self.sine_amplitude_spin.setSingleStep(0.1)
-        self.sine_amplitude_spin.valueChanged.connect(self.update_chart)
-        settings_layout.addWidget(self.sine_amplitude_spin, 1, 2)
-        
+
         # 添加单位转换按钮
         self.unit_button = QPushButton("单位: dBm")
         self.unit_button.clicked.connect(self.toggle_unit)
-        settings_layout.addWidget(self.unit_button, 1, 3)
+        settings_layout.addWidget(self.unit_button, 1, 1)
         
         # 添加PRPS颜色方案选择
         settings_layout.addWidget(QLabel("PRPS颜色方案:"), 2, 0)
@@ -1000,7 +991,6 @@ class HistoricalChartsDialog(QDialog):
         chart_type = self.chart_type_combo.currentText()
         data_range = self.range_spin.value()
         show_sine_wave = self.show_sine_checkbox.isChecked()
-        sine_amplitude = self.sine_amplitude_spin.value()
         color_scheme = self.color_scheme_combo.currentText()
         
         # 确保数据范围不超过实际数据量
@@ -1044,12 +1034,12 @@ class HistoricalChartsDialog(QDialog):
         else:
             # 创建2D图
             self.axes_2d = self.figure.add_subplot(111)
-            self.draw_prpd(all_data, cycle_labels, chart_type, show_sine_wave, sine_amplitude)
+            self.draw_prpd(all_data, cycle_labels, chart_type, show_sine_wave)
         
         # 重绘画布
         self.canvas.draw()
     
-    def draw_prpd(self, all_data, cycle_labels, chart_type, show_sine_wave, sine_amplitude):
+    def draw_prpd(self, all_data, cycle_labels, chart_type, show_sine_wave):
         """绘制PRPD图"""
         if not all_data:
             self.axes_2d.text(0.5, 0.5, "没有数据可显示", ha='center', va='center')
@@ -1282,7 +1272,6 @@ class MainWindow(QMainWindow):
         # 显示设置
         self.show_3d_plot = True  # 设置为始终显示3D图
         self.show_sine_wave = True  # 是否显示参考正弦波
-        self.sine_amplitude = 1.0  # 参考正弦波振幅
         
         # 单位设置
         self.use_dbm = True  # 默认使用dBm单位
@@ -1438,22 +1427,15 @@ class MainWindow(QMainWindow):
         self.show_sine_checkbox.setChecked(self.show_sine_wave)
         self.show_sine_checkbox.stateChanged.connect(self.toggle_sine_wave)
         chart_settings_layout.addWidget(self.show_sine_checkbox, 4, 0, 1, 2)
-        chart_settings_layout.addWidget(QLabel("正弦波振幅:"), 5, 0)
-        self.sine_amplitude_spin = QDoubleSpinBox()
-        self.sine_amplitude_spin.setRange(0.1, 3.0)
-        self.sine_amplitude_spin.setValue(self.sine_amplitude)
-        self.sine_amplitude_spin.setSingleStep(0.1)
-        self.sine_amplitude_spin.valueChanged.connect(self.update_sine_params)
-        chart_settings_layout.addWidget(self.sine_amplitude_spin, 5, 1)
         self.unit_button = QPushButton("单位: dBm")
         self.unit_button.clicked.connect(self.toggle_unit)
-        chart_settings_layout.addWidget(self.unit_button, 6, 0, 1, 2)
-        chart_settings_layout.addWidget(QLabel("PRPS颜色方案:"), 7, 0)
+        chart_settings_layout.addWidget(self.unit_button, 5, 0, 1, 2)
+        chart_settings_layout.addWidget(QLabel("PRPS颜色方案:"), 6, 0)
         self.color_scheme_combo = QComboBox()
         self.color_scheme_combo.addItems(list(self.color_schemes.keys()))
         self.color_scheme_combo.setCurrentText(self.current_color_scheme)
         self.color_scheme_combo.currentTextChanged.connect(self.update_color_scheme)
-        chart_settings_layout.addWidget(self.color_scheme_combo, 7, 1)
+        chart_settings_layout.addWidget(self.color_scheme_combo, 6, 1)
         chart_settings_group.setLayout(chart_settings_layout)
         side_layout.addWidget(chart_settings_group)
 
@@ -1973,11 +1955,6 @@ class MainWindow(QMainWindow):
     def toggle_sine_wave(self, state):
         """切换是否显示参考正弦波"""
         self.show_sine_wave = (state == Qt.CheckState.Checked.value)
-        self.need_redraw = True
-
-    def update_sine_params(self, amplitude):
-        """更新参考正弦波的振幅"""
-        self.sine_amplitude = amplitude
         self.need_redraw = True
 
     def toggle_db_save(self, state):
