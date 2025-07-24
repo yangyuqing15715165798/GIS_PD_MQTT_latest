@@ -47,6 +47,8 @@
 <img width="1502" height="914" alt="image" src="https://github.com/user-attachments/assets/ee981d85-5187-4df1-8a68-154a55c3cba4" />
 <img width="1502" height="914" alt="image" src="https://github.com/user-attachments/assets/91e5fb18-b245-4562-a308-dbd8190eefb7" />
 <img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/e641db69-b465-4e5b-ba25-e88ec07ee5c4" />
+<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/6842ae2c-8f17-4150-a440-24dd9a087541" />
+<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/a3d8a307-bb30-47f7-8653-bedba185689a" />
 
 
 ## 更新日志
