@@ -374,7 +374,7 @@ class MQTTClient(QWidget):
         self.client.on_message = self.on_message
         self.client.on_disconnect = self.on_disconnect
         
-        self.broker_address = "192.168.16.111"
+        self.broker_address = "192.168.16.135"
         self.broker_port = 1883
         self.topic = "pub1"
         self.connected = False
