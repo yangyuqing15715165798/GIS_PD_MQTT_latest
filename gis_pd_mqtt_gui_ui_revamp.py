@@ -2342,7 +2342,7 @@ class MainWindow(QMainWindow):
         #                           shrink=0.6, aspect=10, pad=0.02)
         
         # 设置图表标题和轴标签
-        ax_prps.set_title(f"历史PRPS图 ({num_cycles}个周期)")
+        ax_prps.set_title(f"实时PRPS图 ({num_cycles}个周期)")
         ax_prps.set_xlabel("相位")
         ax_prps.set_ylabel("周期")
         ax_prps.set_zlabel(self.unit_label)
